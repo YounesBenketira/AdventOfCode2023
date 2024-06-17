@@ -17,7 +17,7 @@ int main() {
 	}
 
 	/* PARSE FILE */
-	FILE *file = fopen("input", "r");
+	FILE *file = fopen("input.txt", "r");
 	
 	int sum = 0;	
 	char buffer[256];

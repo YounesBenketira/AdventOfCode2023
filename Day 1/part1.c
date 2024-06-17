@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int main() {
-	FILE *file = fopen("input", "r");
+	FILE *file = fopen("input.txt", "r");
 	
 	if (file == NULL) {
 		perror("Error opening file");
