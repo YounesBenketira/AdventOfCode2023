@@ -19,27 +19,27 @@ int main() {
 	while(fgets(buffer, sizeof(buffer), file) != NULL) {
 		int addGameNumber = 1;
 		for (int i = 0; buffer[i] != '\n'; i++) {
-			if (isDigit(buffer[i]) && buffer[i + 1] == ' ') {
-				char diceCountStr[3] = {'\0'};
+			if (!isDigit(buffer[i]) || buffer[i+1] != ' ') continue;
+
+			char diceCountStr[3] = {'\0'};
 				
-				if (isDigit(buffer[i - 1])) {
-					diceCountStr[0] = buffer[i - 1];
-					diceCountStr[1] = buffer[i];
-				} else {
-					diceCountStr[0] = buffer[i];
-				}
+			if (isDigit(buffer[i - 1])) {
+				diceCountStr[0] = buffer[i - 1];
+				diceCountStr[1] = buffer[i];
+			} else {
+				diceCountStr[0] = buffer[i];
+			}
 						
-				char color = buffer[i + 2];
-				int diceCount  = atoi(diceCountStr);
+			char color = buffer[i + 2];
+			int diceCount  = atoi(diceCountStr);
 	
-				if (
-					   color == 'r' && diceCount > 12 
-					|| color == 'g' && diceCount > 13
-					|| color == 'b' && diceCount > 14
-				) {
-					addGameNumber = 0;
-					break;
-				}
+			if (
+				   color == 'r' && diceCount > 12 
+				|| color == 'g' && diceCount > 13
+				|| color == 'b' && diceCount > 14
+			) {
+				addGameNumber = 0;
+				break;
 			}
 		}
 		

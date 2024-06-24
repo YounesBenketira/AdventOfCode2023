@@ -15,39 +15,44 @@ int main() {
 
 	int sum = 0;
 	char buffer[256];
-	int gameNumber = 1;
 	while(fgets(buffer, sizeof(buffer), file) != NULL) {
-		int addGameNumber = 1;
+		int maxDiceCountPerColor[3] = {0};
 		for (int i = 0; buffer[i] != '\n'; i++) {
-			if (isDigit(buffer[i]) && buffer[i + 1] == ' ') {
-				char diceCountStr[3] = {'\0'};
+			if (!isDigit(buffer[i]) || buffer[i+1] != ' ') continue;
+
+			char diceCountStr[3] = {'\0'};
 				
-				if (isDigit(buffer[i - 1])) {
-					diceCountStr[0] = buffer[i - 1];
-					diceCountStr[1] = buffer[i];
-				} else {
-					diceCountStr[0] = buffer[i];
-				}
+			if (isDigit(buffer[i - 1])) {
+				diceCountStr[0] = buffer[i - 1];
+				diceCountStr[1] = buffer[i];
+			} else {
+				diceCountStr[0] = buffer[i];
+			}
 						
-				char color = buffer[i + 2];
-				int diceCount  = atoi(diceCountStr);
-	
-				if (
-					   color == 'r' && diceCount > 12 
-					|| color == 'g' && diceCount > 13
-					|| color == 'b' && diceCount > 14
-				) {
-					addGameNumber = 0;
+			char color = buffer[i + 2];
+			int diceCount  = atoi(diceCountStr);
+			int colorIndex = 0;
+			switch(color) {
+				case 'r':
+					break;	
+				case 'g':
+					colorIndex = 1;
 					break;
-				}
+				case 'b':
+					colorIndex = 2;
+					break;
+				default:
+					perror("ERROR BAD COLOR");
+					return 1;
+			}
+			
+			if (maxDiceCountPerColor[colorIndex] < diceCount) {
+				maxDiceCountPerColor[colorIndex] = diceCount;
 			}
 		}
 		
-		if (addGameNumber == 1) {
-			sum += gameNumber;
-		}
-	
-		gameNumber++;
+		int power = maxDiceCountPerColor[0] * maxDiceCountPerColor[1] * maxDiceCountPerColor[2];
+		sum += power;
 	}
 	
 	fclose(file);
