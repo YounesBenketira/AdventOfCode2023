@@ -43,8 +43,14 @@ void main() {
     
     populateNumberMap(&numberMap, file);
     
-    int numsInLineSize;
+    int numsInLineSize = 0;
     int *numbersInLineZero = getNumbersInLine(&numberMap, 0, &numsInLineSize);
+
+    for (int i = 0; i < numsInLineSize; i++) {
+        if (numbersInLineZero[i] == 0) continue;
+        printf("%d ", numbersInLineZero[i]);        
+    }
+    printf("\n");
     
     free(numbersInLineZero);
 

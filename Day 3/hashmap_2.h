@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #define TABLE_SIZE 1024
+#define MAX_NUM_COUNT_PER_LINE 256
 
 typedef struct {
     int key;
