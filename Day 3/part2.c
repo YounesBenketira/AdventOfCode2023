@@ -5,7 +5,7 @@
 #include "hashmap_2.h"
 
 /*
-* Parses file and maps all symbols in a line to an array of their indicies
+* Parses file and inserts all numbers found into the numberMap with the start, end and lineNumbers
 */
 void populateNumberMap(Map *numberMap, FILE *file) {
     char buffer[256];
@@ -30,35 +30,64 @@ void populateNumberMap(Map *numberMap, FILE *file) {
     }
 }
 
+/*
+* Parses the file and when a '*' character is found, gets the adjacent numbers then calculates ratio
+* and adds it to sum
+*/
+int calculateSum(Map *map, FILE *file) {
+    int lineNumber = 0;
+    int sum = 0;
+    char buffer[256];
+
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        for (int i = 0; buffer[i] != '\n' && buffer[i] != '\0'; i++) {
+            if (buffer[i] != '*') {
+                continue;
+            }
+
+            int adjacentNumbersLength = 0;
+            int *adjacentNumbers = getAdjacentNumbers(map, lineNumber, i, &adjacentNumbersLength);
+
+            if (adjacentNumbersLength != 2) {
+                free(adjacentNumbers);
+                continue;
+            }
+            
+            int ratio = adjacentNumbers[0] * adjacentNumbers[1];
+            sum += ratio;
+            
+            free(adjacentNumbers);
+        }
+
+        lineNumber++;
+    }
+
+    return sum;
+}
+
 void main() {
-	FILE *file = fopen("input_test.txt", "r");
+	FILE *file = fopen("input.txt", "r");
 
 	if (file == NULL) {
 		perror("Failed to open file");
 		return;
 	}
 
+    /* Init Map */
     Map numberMap;
     initMap(&numberMap);
     
+    /* Populate Map with numbers */
     populateNumberMap(&numberMap, file);
+ 
+    /* Calculate Sum */
+    fseek(file, 0, SEEK_SET); // reset file pointer
+    int sum = calculateSum(&numberMap, file);
     
-    int numsInLineSize = 0;
-    int *numbersInLineZero = getNumbersInLine(&numberMap, 0, &numsInLineSize);
-
-    for (int i = 0; i < numsInLineSize; i++) {
-        if (numbersInLineZero[i] == 0) continue;
-        printf("%d ", numbersInLineZero[i]);        
-    }
-    printf("\n");
-    
-    free(numbersInLineZero);
-
-    fseek(file, 0, SEEK_SET);
-
-    //int sum = calculateSum(symbolMap, file);
+    /* Cleanup */
     fclose(file);
-    printf("DONE, Answer: %i\n", 0);
+    
+    printf("DONE, Answer: %i\n", sum);
 	return;
 }
 

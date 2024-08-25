@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define TABLE_SIZE 1024
+#define TABLE_SIZE 2048
 #define MAX_NUM_COUNT_PER_LINE 256
 
 typedef struct {
@@ -19,8 +19,7 @@ typedef struct {
 } Map;
 
 void initMap(Map *map);
-Entry* get(Map *map, int key);
-int* getNumbersInLine(Map *map, int lineNumber, int *returnSize);
+int* getAdjacentNumbers(Map *map, int lineNumber, int index, int *returnSize);
 void insert(Map *map, int key, int start, int end, int lineNumber);
 
 #endif 
