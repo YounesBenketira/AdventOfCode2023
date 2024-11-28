@@ -11,6 +11,8 @@ Answer: `519444`
 
 # Part 2 Solution
 
-TBD
+I am writing this couple months after I solved part 2,
+cant explain my reasoning because im too lazy to read my own code :/
+but at least the explanation isnt empty :)
 
-Answer: `TBD`
+Answer: `74528807`
