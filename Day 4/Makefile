@@ -22,22 +22,22 @@ PART2_OUT = $(BUILD_PART2)/part_2
 CFLAGS = -Wall -Wextra -g
 
 # Default target
-all: $(PART1_OUT) $(PART2_OUT)
+all: $(PART1_OUT)
 
 # Build part_1 target
 $(PART1_OUT): $(PART1_SRC) | $(BUILD_PART1)
 	$(CC) $(CFLAGS) $(PART1_SRC) -o $(PART1_OUT)
 
 # Build part_2 target
-$(PART2_OUT): $(PART2_SRC) | $(BUILD_PART2)
-	$(CC) $(CFLAGS) $(PART2_SRC) -o $(PART2_OUT)
+#$(PART2_OUT): $(PART2_SRC) | $(BUILD_PART2)
+#	$(CC) $(CFLAGS) $(PART2_SRC) -o $(PART2_OUT)
 
 # Ensure build directories exist
 $(BUILD_PART1):
 	mkdir -p $(BUILD_PART1)
 
-$(BUILD_PART2):
-	mkdir -p $(BUILD_PART2)
+#$(BUILD_PART2):
+#	mkdir -p $(BUILD_PART2)
 
 # Clean build files
 clean:
